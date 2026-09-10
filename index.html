@@ -1180,7 +1180,7 @@ new QRCode(
 ========================= */
 
 const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbzRKPvGa2Xg4f3wpgTxoHFiG5XjvrdvSrkcYJCdd3pbjn-1Hii92vSypdu-zSUFtXop/exec";
+    "https://script.google.com/macros/s/AKfycbw-fsb8gmAVCA6wsp8EmRitNVWCUwMM_H_NsfAEaahbJNk3r6tdQviUGpj7B6LlLnDX/exec";
 
 const rsvpForm = document.getElementById("rsvpForm");
 const submitButton = document.getElementById("submitButton");
@@ -1250,7 +1250,7 @@ rsvpForm.addEventListener("submit", async function (event) {
 
 function showStatus(message, type) {
     formStatus.textContent = message;
-    formStatus.classالاسم = "form-status " + type;
+    formStatus.className = "form-status " + type;
 
     formStatus.scrollIntoView({
         behavior: "smooth",
@@ -1260,7 +1260,7 @@ function showStatus(message, type) {
 
 function hideStatus() {
     formStatus.textContent = "";
-    formStatus.classالاسم = "form-status";
+    formStatus.className = "form-status";
 }
 </script>
 
