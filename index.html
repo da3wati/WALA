@@ -617,7 +617,19 @@ textarea{
     font-size:12px;
 }
 
+/* إشارة أنيقة للنزول للأسفل */
+.scroll-hint{
+    padding:18px 12px 24px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    color:#0f5b46; background:linear-gradient(to bottom, rgba(247,241,231,0), rgba(247,241,231,.96)); text-align:center;
+}
+.scroll-hint-text{font-family:"Amiri","Noto Naskh Arabic",serif !important; font-size:15px; line-height:1.8; color:#0f5b46; opacity:.88;}
+.scroll-arrow{display:block; font-family:Arial,sans-serif; font-size:34px; line-height:.8; color:#c9a24e; animation:scrollArrow 1.7s ease-in-out infinite;}
+@keyframes scrollArrow{0%,100%{transform:translateY(0);opacity:.55;}50%{transform:translateY(8px);opacity:1;}}
+
 @media (max-width:600px){
+    .scroll-hint{padding:14px 10px 20px;}
+    .scroll-hint-text{font-size:14px;}
+    .scroll-arrow{font-size:31px;}
     .open-hint{
         bottom:max(22px, env(safe-area-inset-bottom));
         font-size:11px;
@@ -885,7 +897,12 @@ p, .description, .details, .privacy-text, .venue-text, label {
     <!-- أول صورة بعد فتح الغلاف: بطاقة الدعوة -->
     <section class="image-section" id="invitationCard">
         <div class="henna-heading" dir="rtl">حنة ولاء</div>
-    <img src="image2.png" alt="بطاقة دعوة ولاء">
+        <img src="image2.png" alt="بطاقة دعوة ولاء">
+
+        <div class="scroll-hint" aria-hidden="true">
+            <span class="scroll-hint-text">تابعي النزول لاكتشاف تفاصيل فرحتنا</span>
+            <span class="scroll-arrow">⌄</span>
+        </div>
     </section>
 
     <!-- الصورة الثانية: تفاصيل العرس -->
