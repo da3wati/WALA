@@ -617,41 +617,44 @@ textarea{
     font-size:12px;
 }
 
-/* مؤشر نزول طولي ثابت على يمين الدعوة */
+/* مؤشر تمرير احترافي مثل مواقع الويب */
 .scroll-hint{
-    position:fixed; right:18px; top:50%; transform:translateY(-50%);
-    z-index:40; width:28px; height:190px;
-    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-    pointer-events:none; opacity:.9; transition:opacity .5s ease, transform .5s ease;
+    position:fixed; right:16px; top:50%; transform:translateY(-50%);
+    z-index:40; width:24px; height:220px;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none; opacity:1;
+    transition:opacity .5s ease, transform .5s ease;
 }
-.scroll-line{
-    position:relative; display:block; width:1px; height:150px;
-    background:linear-gradient(to bottom, rgba(201,162,78,.08), rgba(201,162,78,.9), rgba(201,162,78,.15));
-    overflow:hidden;
+.scroll-track{
+    position:relative; display:block; width:3px; height:205px;
+    border-radius:999px;
+    background:rgba(201,162,78,.24);
+    box-shadow:0 0 4px rgba(201,162,78,.10);
 }
-.scroll-line::after{
-    content:""; position:absolute; left:0; top:-45px; width:1px; height:45px;
-    background:linear-gradient(to bottom, transparent, rgba(255,255,255,.95));
-    animation:scrollLight 2.2s ease-in-out infinite;
+.scroll-track::before,
+.scroll-track::after{
+    content:""; position:absolute; left:50%; transform:translateX(-50%);
+    width:5px; height:5px; border-radius:50%;
+    background:rgba(201,162,78,.55);
 }
-.scroll-arrow{
-    display:block; margin-top:2px; font-family:Arial,sans-serif;
-    font-size:28px; line-height:1; font-weight:300; color:#c9a24e;
-    animation:scrollArrow 1.7s ease-in-out infinite;
-}
-@keyframes scrollArrow{
-    0%,100%{transform:translateY(0);opacity:.55;}
-    50%{transform:translateY(9px);opacity:1;}
-}
-@keyframes scrollLight{
-    0%{transform:translateY(0);opacity:0;}
-    25%{opacity:1;}
-    70%,100%{transform:translateY(195px);opacity:0;}
+.scroll-track::before{top:0;}
+.scroll-track::after{bottom:0;}
+.scroll-dot{
+    position:absolute; left:50%; top:0;
+    width:12px; height:12px; transform:translate(-50%, -50%);
+    border-radius:50%; background:#c9a24e;
+    border:2px solid #fffaf2;
+    box-shadow:0 0 0 2px rgba(201,162,78,.35), 0 2px 8px rgba(7,57,45,.22);
+    transition:top .12s linear;
 }
 .scroll-hint.hidden{
-    opacity:0; transform:translateY(-45%);
+    opacity:0;
 }
 @media (max-width:600px){
+    .scroll-hint{right:9px; width:30px; height:185px;}
+    .scroll-line{height:140px; width:2px;}
+    .scroll-arrow{font-size:32px;}
+
     .scroll-hint{padding:14px 10px 20px;}
     .scroll-hint-text{font-size:14px;}
     .scroll-arrow{font-size:31px;}
@@ -925,8 +928,9 @@ p, .description, .details, .privacy-text, .venue-text, label {
         <img src="image2.png" alt="بطاقة دعوة ولاء">
 
         <div class="scroll-hint" id="scrollHint" aria-hidden="true">
-    <span class="scroll-line"></span>
-    <span class="scroll-arrow">↓</span>
+    <span class="scroll-track">
+        <span class="scroll-dot"></span>
+    </span>
 </div>
     </section>
 
@@ -1100,37 +1104,28 @@ p, .description, .details, .privacy-text, .venue-text, label {
 <script>
 (function(){
     const scrollHint = document.getElementById("scrollHint");
-    if (!scrollHint) return;
+    const dot = scrollHint ? scrollHint.querySelector(".scroll-dot") : null;
+    const track = scrollHint ? scrollHint.querySelector(".scroll-track") : null;
+    if (!scrollHint || !dot || !track) return;
 
-    let ticking = false;
-
-    function updateScrollHint(){
+    function updateScrollIndicator(){
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+        const progress = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+        const usableHeight = track.clientHeight;
+        dot.style.top = (progress * usableHeight) + "px";
 
-        // يتحرك قليلًا مع التمرير ليبدو كعنصر حي في الموقع.
-        const drift = Math.min(progress * 34, 34);
-        scrollHint.style.transform = `translateY(calc(-50% + ${drift}px))`;
-
-        // يختفي تدريجيًا عند الاقتراب من نهاية الدعوة.
-        if (progress > 0.90) {
+        // إخفاؤه فقط عند الوصول تقريبًا إلى نهاية الدعوة.
+        if (progress > 0.96) {
             scrollHint.classList.add("hidden");
         } else {
             scrollHint.classList.remove("hidden");
         }
-
-        ticking = false;
     }
 
-    window.addEventListener("scroll", function(){
-        if (!ticking) {
-            requestAnimationFrame(updateScrollHint);
-            ticking = true;
-        }
-    }, {passive:true});
-
-    window.addEventListener("resize", updateScrollHint);
-    updateScrollHint();
+    window.addEventListener("scroll", updateScrollIndicator, {passive:true});
+    window.addEventListener("resize", updateScrollIndicator);
+    window.addEventListener("load", updateScrollIndicator);
+    updateScrollIndicator();
 })();
 </script>
 
