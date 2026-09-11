@@ -617,41 +617,44 @@ textarea{
     font-size:12px;
 }
 
-/* لوحة زجاجية ثابتة للتنبيه بالنزول */
+/* تنبيه أنيق ومتمركز أسفل الدعوة */
 .scroll-hint{
-    position:fixed; left:50%; bottom:10px; transform:translateX(-50%);
-    z-index:45; width:auto; min-width:0; max-width:calc(100vw - 80px);
-    padding:5px 12px 6px;
+    position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+    z-index:45;
+    width:118px; height:48px; box-sizing:border-box;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     gap:0; pointer-events:none; text-align:center;
-    border:1px solid rgba(201,162,78,.58);
-    border-radius:12px;
-    background:rgba(255,250,242,.55);
-    backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px);
-    box-shadow:0 3px 12px rgba(7,57,45,.10), inset 0 1px 0 rgba(255,255,255,.65);
+    border:1px solid rgba(201,162,78,.72);
+    border-radius:25px;
+    background:rgba(255,250,242,.72);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    box-shadow:0 5px 20px rgba(7,57,45,.14), inset 0 1px 0 rgba(255,255,255,.9);
     transition:opacity .5s ease, transform .5s ease;
 }
 .scroll-hint-text{
     font-family:"Amiri","Noto Naskh Arabic",serif !important;
-    font-size:12px; line-height:1.35; font-weight:600;
-    color:#07392d; text-shadow:0 1px 2px rgba(255,255,255,.8);
+    font-size:14px; line-height:1.25; font-weight:600;
+    color:#07392d; text-shadow:0 1px 2px rgba(255,255,255,.9);
     white-space:nowrap;
 }
 .scroll-hint-arrow{
-    display:block; font-family:Arial,sans-serif; font-size:17px; line-height:.85;
+    display:block; margin-top:-1px;
+    font-family:Arial,sans-serif; font-size:21px; line-height:.7;
     color:#b88f37; font-weight:500;
-    animation:glassScrollArrow 1.4s ease-in-out infinite;
-    text-shadow:0 1px 2px rgba(255,255,255,.8);
+    animation:glassScrollArrow 1.5s ease-in-out infinite;
 }
-@keyframes glassScrollArrow{0%,100%{transform:translateY(0);opacity:.65;}50%{transform:translateY(5px);opacity:1;}}
+@keyframes glassScrollArrow{
+    0%,100%{transform:translateY(0);opacity:.55;}
+    50%{transform:translateY(4px);opacity:1;}
+}50%{transform:translateY(5px);opacity:1;}}
 .scroll-hint.hidden{opacity:0; transform:translate(-50%, 10px); pointer-events:none;}
 @media (max-width:600px){
     .scroll-hint{
-        bottom:9px; max-width:calc(100vw - 100px);
-        padding:4px 10px 5px; border-radius:10px;
+        bottom:12px; width:108px; height:44px;
+        padding:0; border-radius:23px;
     }
-    .scroll-hint-text{font-size:11px;}
-    .scroll-hint-arrow{font-size:16px;}
+    .scroll-hint-text{font-size:13px;}
+    .scroll-hint-arrow{font-size:19px;}
     .scroll-hint{right:9px; width:30px; height:185px;}
     .scroll-line{height:140px; width:2px;}
     .scroll-arrow{font-size:32px;}
@@ -929,8 +932,8 @@ p, .description, .details, .privacy-text, .venue-text, label {
         <img src="image2.png" alt="بطاقة دعوة ولاء">
 
         <div class="scroll-hint" id="scrollHint" aria-hidden="true">
-    <span class="scroll-hint-text">انزل للأسفل لاكتشاف تفاصيل فرحتنا</span>
-    <span class="scroll-hint-arrow">↓</span>
+    <span class="scroll-hint-text">انزل للأسفل</span>
+    <span class="scroll-hint-arrow">⌄</span>
 </div>
     </section>
 
