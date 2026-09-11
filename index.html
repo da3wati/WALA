@@ -617,15 +617,40 @@ textarea{
     font-size:12px;
 }
 
-/* إشارة أنيقة للنزول للأسفل */
+/* مؤشر نزول طولي ثابت على يمين الدعوة */
 .scroll-hint{
-    padding:18px 12px 24px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
-    color:#0f5b46; background:linear-gradient(to bottom, rgba(247,241,231,0), rgba(247,241,231,.96)); text-align:center;
+    position:fixed; right:18px; top:50%; transform:translateY(-50%);
+    z-index:40; width:28px; height:190px;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    pointer-events:none; opacity:.9; transition:opacity .5s ease, transform .5s ease;
 }
-.scroll-hint-text{font-family:"Amiri","Noto Naskh Arabic",serif !important; font-size:15px; line-height:1.8; color:#0f5b46; opacity:.88;}
-.scroll-arrow{display:block; font-family:Arial,sans-serif; font-size:34px; line-height:.8; color:#c9a24e; animation:scrollArrow 1.7s ease-in-out infinite;}
-@keyframes scrollArrow{0%,100%{transform:translateY(0);opacity:.55;}50%{transform:translateY(8px);opacity:1;}}
-
+.scroll-line{
+    position:relative; display:block; width:1px; height:150px;
+    background:linear-gradient(to bottom, rgba(201,162,78,.08), rgba(201,162,78,.9), rgba(201,162,78,.15));
+    overflow:hidden;
+}
+.scroll-line::after{
+    content:""; position:absolute; left:0; top:-45px; width:1px; height:45px;
+    background:linear-gradient(to bottom, transparent, rgba(255,255,255,.95));
+    animation:scrollLight 2.2s ease-in-out infinite;
+}
+.scroll-arrow{
+    display:block; margin-top:2px; font-family:Arial,sans-serif;
+    font-size:28px; line-height:1; font-weight:300; color:#c9a24e;
+    animation:scrollArrow 1.7s ease-in-out infinite;
+}
+@keyframes scrollArrow{
+    0%,100%{transform:translateY(0);opacity:.55;}
+    50%{transform:translateY(9px);opacity:1;}
+}
+@keyframes scrollLight{
+    0%{transform:translateY(0);opacity:0;}
+    25%{opacity:1;}
+    70%,100%{transform:translateY(195px);opacity:0;}
+}
+.scroll-hint.hidden{
+    opacity:0; transform:translateY(-45%);
+}
 @media (max-width:600px){
     .scroll-hint{padding:14px 10px 20px;}
     .scroll-hint-text{font-size:14px;}
@@ -899,10 +924,10 @@ p, .description, .details, .privacy-text, .venue-text, label {
         <div class="henna-heading" dir="rtl">حنة ولاء</div>
         <img src="image2.png" alt="بطاقة دعوة ولاء">
 
-        <div class="scroll-hint" aria-hidden="true">
-            <span class="scroll-hint-text">تابعي النزول لاكتشاف تفاصيل فرحتنا</span>
-            <span class="scroll-arrow">⌄</span>
-        </div>
+        <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+    <span class="scroll-line"></span>
+    <span class="scroll-arrow">↓</span>
+</div>
     </section>
 
     <!-- الصورة الثانية: تفاصيل العرس -->
@@ -1070,6 +1095,44 @@ p, .description, .details, .privacy-text, .venue-text, label {
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+<script>
+(function(){
+    const scrollHint = document.getElementById("scrollHint");
+    if (!scrollHint) return;
+
+    let ticking = false;
+
+    function updateScrollHint(){
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+
+        // يتحرك قليلًا مع التمرير ليبدو كعنصر حي في الموقع.
+        const drift = Math.min(progress * 34, 34);
+        scrollHint.style.transform = `translateY(calc(-50% + ${drift}px))`;
+
+        // يختفي تدريجيًا عند الاقتراب من نهاية الدعوة.
+        if (progress > 0.90) {
+            scrollHint.classList.add("hidden");
+        } else {
+            scrollHint.classList.remove("hidden");
+        }
+
+        ticking = false;
+    }
+
+    window.addEventListener("scroll", function(){
+        if (!ticking) {
+            requestAnimationFrame(updateScrollHint);
+            ticking = true;
+        }
+    }, {passive:true});
+
+    window.addEventListener("resize", updateScrollHint);
+    updateScrollHint();
+})();
+</script>
 
 <script>
 const cover = document.getElementById("cover");
