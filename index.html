@@ -617,37 +617,6 @@ textarea{
     font-size:12px;
 }
 
-/* تنبيه أنيق ومتمركز أسفل الدعوة */
-.scroll-hint{
-    position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
-    z-index:45;
-    width:118px; height:48px; box-sizing:border-box;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:0; pointer-events:none; text-align:center;
-    border:1px solid rgba(201,162,78,.72);
-    border-radius:25px;
-    background:rgba(255,250,242,.72);
-    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-    box-shadow:0 5px 20px rgba(7,57,45,.14), inset 0 1px 0 rgba(255,255,255,.9);
-    transition:opacity .5s ease, transform .5s ease;
-}
-.scroll-hint-text{
-    font-family:"Amiri","Noto Naskh Arabic",serif !important;
-    font-size:14px; line-height:1.25; font-weight:600;
-    color:#07392d; text-shadow:0 1px 2px rgba(255,255,255,.9);
-    white-space:nowrap;
-}
-.scroll-hint-arrow{
-    display:block; margin-top:-1px;
-    font-family:Arial,sans-serif; font-size:21px; line-height:.7;
-    color:#b88f37; font-weight:500;
-    animation:glassScrollArrow 1.5s ease-in-out infinite;
-}
-@keyframes glassScrollArrow{
-    0%,100%{transform:translateY(0);opacity:.55;}
-    50%{transform:translateY(4px);opacity:1;}
-}50%{transform:translateY(5px);opacity:1;}}
-.scroll-hint.hidden{opacity:0; transform:translate(-50%, 10px); pointer-events:none;}
 @media (max-width:600px){
     .scroll-hint{
         bottom:12px; width:108px; height:44px;
@@ -904,6 +873,92 @@ p, .description, .details, .privacy-text, .venue-text, label {
 
 .countdown-label {
   font-family: "Amiri", "Noto Naskh Arabic", serif !important;
+}
+
+
+/* ===== مؤشر النزول - تصميم الهاتف ===== */
+.scroll-hint{
+    position:fixed !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:16px !important;
+    top:auto !important;
+    transform:translateX(-50%) !important;
+    width:116px !important;
+    height:42px !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    z-index:9999 !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:0 !important;
+
+    border:1px solid rgba(201,162,78,.80) !important;
+    border-radius:24px !important;
+    background:rgba(255,250,242,.88) !important;
+    -webkit-backdrop-filter:blur(10px) !important;
+    backdrop-filter:blur(10px) !important;
+    box-shadow:0 4px 16px rgba(7,57,45,.18), inset 0 1px 0 rgba(255,255,255,.95) !important;
+
+    pointer-events:none !important;
+    opacity:1 !important;
+}
+.scroll-hint-text{
+    display:block !important;
+    margin:0 !important;
+    padding:0 !important;
+    font-family:"Amiri","Noto Naskh Arabic",serif !important;
+    font-size:13px !important;
+    line-height:18px !important;
+    font-weight:700 !important;
+    color:#07392d !important;
+    white-space:nowrap !important;
+    opacity:1 !important;
+}
+.scroll-hint-arrow{
+    display:block !important;
+    margin:0 !important;
+    padding:0 !important;
+    height:13px !important;
+    font-family:Arial,sans-serif !important;
+    font-size:18px !important;
+    line-height:12px !important;
+    color:#b88f37 !important;
+    opacity:1 !important;
+    animation:phoneScrollArrow 1.4s ease-in-out infinite !important;
+}
+@keyframes phoneScrollArrow{
+    0%,100%{transform:translateY(0);opacity:.65;}
+    50%{transform:translateY(4px);opacity:1;}
+}
+.scroll-hint.hidden{
+    opacity:0 !important;
+    transform:translate(-50%,8px) !important;
+}
+
+@media (min-width:601px){
+    .scroll-hint{
+        left:50% !important;
+        right:auto !important;
+        bottom:20px !important;
+        top:auto !important;
+    }
+}
+@media (max-width:600px){
+    .scroll-hint{
+        left:50% !important;
+        right:auto !important;
+        bottom:14px !important;
+        width:108px !important;
+        height:40px !important;
+        border-radius:22px !important;
+    }
+    .scroll-hint-text{font-size:12px !important; line-height:17px !important;}
+    .scroll-hint-arrow{font-size:17px !important; height:12px !important;}
 }
 
 </style>
